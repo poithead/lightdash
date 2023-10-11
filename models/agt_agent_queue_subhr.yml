@@ -28,11 +28,11 @@ semantic_models:
     description: |
       Customer grain mart.
     model: ref('agt_agent_queue_subhr')
-    entities:
-      - name: interval
-        expr: cal_date
-        type: primary
     dimensions:
+      - name: call_date
+        type: time
+        type_params:
+          time_granularity: day
       - name: media_type
         type: categorical
       - name: direction
