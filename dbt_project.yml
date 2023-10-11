@@ -32,9 +32,35 @@ clean-targets:         # directories to be removed by `dbt clean`
 # as tables. These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
 models:
-  my_new_project:
-    # Applies to all files under models/example/
-    example:
-      materialized: view
+  - name: agt_agent_queue_subhr_dim
+    description: "A dimension model for agent queue aggregate data"
+    columns:
+      - name: cal_date
+        description: "Date and time when for the aggregate"
+        quoting:
+        type: timestamp
 
+      - name: media_type
+        description: "media type of the interaction"
+        quoting:
+        type: string
 
+      - name: direction
+        description: "direction of the interaction"
+        quoting:
+        type: string
+
+      - name: user_id
+        description: "GC user identifier"
+        quoting:
+        type: string
+
+      - name: queue_id
+        description: "GC queue identifier"
+        quoting:
+        type: string
+
+      - name: division_id
+        description: "GC division identifier"
+        quoting:
+        type: string
