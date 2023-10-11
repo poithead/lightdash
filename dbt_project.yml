@@ -24,6 +24,9 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
+vars:
+  truncate_timespan_to: "{{ current_timestamp() }}"
+  "dbt_date:time_zone": "Africa/Johannesburg"
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
