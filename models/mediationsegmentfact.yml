@@ -129,9 +129,11 @@ semantic_models:
       - name: sum_offered
         description: Total count of offered interactions
         agg: count
+        expr: 1
       - name: sum_accepted
         description: Total count of accepted interactions.
         agg: count
+        expr: 1
       - name: sum_handle_time
         agg: sum
         description: Total handle time
