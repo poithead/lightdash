@@ -1,0 +1,158 @@
+models:
+  - name: mediationsegmentfact
+    description: Mediation Segment Fact Table.
+    columns:
+      - name: abandoned
+        description: "abandoned (snowflake data type: number)"
+
+      - name: accepted
+        description: "accepted (snowflake data type: number)"
+
+      - name: acd_time
+        description: "acd_time (snowflake data type: number)"
+
+      - name: agent_disconnect
+        description: "agent_disconnect (snowflake data type: number)"
+
+      - name: alert
+        description: "alert (snowflake data type: number)"
+
+      - name: alert_time
+        description: "alert_time (snowflake data type: number)"
+
+      - name: answered_time
+        description: "answered_time (snowflake data type: number)"
+
+      - name: conversation_id
+        description: "conversation_id (snowflake data type: text)"
+
+      - name: direction
+        description: "direction (snowflake data type: text)"
+
+      - name: disconnect_type
+        description: "disconnect_type (snowflake data type: text)"
+
+      - name: division_id
+        description: "division_id (snowflake data type: text)"
+
+      - name: end_timestamp
+        description: "end_timestamp (snowflake data type: timestamp_ntz)"
+
+      - name: flow_out
+        description: "flow_out (snowflake data type: number)"
+
+      - name: flow_out_time
+        description: "flow_out_time (snowflake data type: number)"
+
+      - name: handle_time
+        description: "handle_time (snowflake data type: number)"
+
+      - name: held_time
+        description: "held_time (snowflake data type: number)"
+
+      - name: media_type
+        description: "media_type (snowflake data type: text)"
+
+      - name: met_threshold
+        description: "met_threshold (snowflake data type: number)"
+
+      - name: not_responding
+        description: "not_responding (snowflake data type: number)"
+
+      - name: not_responding_time
+        description: "not_responding_time (snowflake data type: number)"
+
+      - name: offered
+        description: "offered (snowflake data type: number)"
+
+      - name: participant_id
+        description: "participant_id (snowflake data type: text)"
+
+      - name: queue_name
+        description: "queue_name (snowflake data type: text)"
+
+      - name: short_abandoned
+        description: "short_abandoned (snowflake data type: number)"
+
+      - name: start_timestamp
+        description: "start_timestamp (snowflake data type: timestamp_ntz)"
+
+      - name: talk_time
+        description: "talk_time (snowflake data type: number)"
+
+      - name: transferred_blind
+        description: "transferred_blind (snowflake data type: number)"
+
+      - name: transferred_consult
+        description: "transferred_consult (snowflake data type: number)"
+
+      - name: user_name
+        description: "user_name (snowflake data type: text)"
+
+      - name: wrap_time
+        description: "wrap_time (snowflake data type: number)"
+
+
+semantic_models:
+  - name: mediationsegmentfact
+    defaults:
+      agg_time_dimension: start_timestamp
+    description: |
+      Customer grain mart.
+    model: ref('mediationsegmentfact')
+    entities:
+      - name: conversations
+        expr: conversation_id
+        type: primary
+    dimensions:
+      - name: start_timestamp
+        type: time
+        type_params:
+          time_granularity: day
+      - name: media_type
+        type: categorical
+      - name: direction
+        type: categorical
+      - name: user_name
+        type: categorical
+      - name: queue_name
+        type: categorical
+      - name: division_id
+        type: categorical
+      - name: offered
+        type: categorical
+      - name: accepted
+        type: categorical
+      - name: handle_time
+        type: categorical
+    measures:
+      - name: sum_offered
+        description: Total count of offered interactions
+        agg: count
+      - name: sum_accepted
+        description: Total count of accepted interactions.
+        agg: count
+      - name: sum_handle_time
+        agg: sum
+        description: Total handle time
+
+metrics:
+  # Simple metrics
+  - name: accepted
+    description: "Count of accepted interactions"
+    type: simple
+    label: Total Accepted
+    type_params:
+      measure: sum_accepted
+  - name: offered
+    description: Count of offered interactions
+    label: Total Offered
+    type: simple
+    type_params:
+      measure: sum_offered
+  - name: handle_time
+    description: Total Handle time of interactions.
+    label: Total Handle Time
+    type: simple
+    type_params:
+      measure: sum_handle_time
